@@ -1,0 +1,140 @@
+NORMETRICS™ Benchmarking Results of OLS, GLS, 2SLS, Against Industry Standards.
+June 7, 2026. © 2026, Philippe G. Penelle, Ph.D., ALL RIGHTS RESERVED
+NORMETRICS™ is a Registered Trademark.
+Target Audience: Economists, Econometricians, Applied Researchers and Practitioners.
+
+============================================================================
+NORMETRICS ECONOMETRIC BENCHMARK DEMONSTRATION
+============================================================================
+Purpose:
+To demonstrate that Normetrics reproduces benchmarked classical estimator outputs under aligned specifications and documented numerical tolerances.
+Benchmark note:
+The examples below are controlled benchmark specifications used to demonstrate estimator reproduction under aligned assumptions. The purpose is numerical reproduction of standard estimators, not substantive inference from a real-world empirical application.
+Benchmark families presented:
+1. Ordinary Least Squares (OLS)
+2. Generalized Least Squares (GLS)
+3. Two-Stage Least Squares (2SLS / IV)
+Reference implementations:
+- statsmodels (OLS, GLS)
+- linearmodels.IV2SLS (2SLS / IV)
+============================================================================
+----------------------------------------------------------------------------
+SECTION 1. ORDINARY LEAST SQUARES (OLS)
+----------------------------------------------------------------------------
+Model specification
+-------------------
+Estimator:              OLS
+Dependent variable:     y
+Regressors:             x1, x2
+Intercept:              Included
+Sample size:            80
+Reference model:        statsmodels.OLS
+Benchmark objective:    Coefficient and fit-statistic parity
+Coefficient comparison
+----------------------
+ Variable Normetrics estimate Reference estimate Absolute deviation Relative deviation
+Intercept            2.008286           2.008286            < 1e-12            < 1e-12
+       x1            1.014513           1.014513            < 1e-12            < 1e-12
+       x2           -1.523724          -1.523724            < 1e-12            < 1e-12
+Comment:
+The Normetrics OLS coefficient vector matches the benchmark OLS coefficient vector within the configured numerical tolerance for this specification.
+Fit statistics
+--------------
+              Statistic Normetrics Reference Absolute deviation
+                      N  80.000000 80.000000            < 1e-12
+                    SSE   2.762699  2.762699            < 1e-12
+                   RMSE   0.185833  0.185833            < 1e-12
+              R-squared   0.987424  0.987424            < 1e-12
+     Adjusted R-squared   0.987097  0.987097            < 1e-12
+Max |fitted difference|   0.000000  0.000000            < 1e-12
+Interpretation:
+For this controlled benchmark specification, Normetrics reproduces the coefficient vector and the core OLS fit statistics of the external reference implementation.
+Benchmark result: coefficient and fit-statistic parity established for this specification.
+----------------------------------------------------------------------------
+SECTION 2. GENERALIZED LEAST SQUARES (GLS)
+----------------------------------------------------------------------------
+Model specification
+-------------------
+Estimator:              GLS
+Dependent variable:     y
+Regressors:             x1, x2
+Intercept:              Included
+Sample size:            100
+Reference models:       transformed-system solution; statsmodels.GLS
+Covariance treatment:   aligned weighting / covariance specification
+Benchmark objective:    Coefficient, fitted-value, and weighted-objective parity
+Coefficient comparison
+----------------------
+ Variable Normetrics estimate Reference estimate Absolute deviation Relative deviation
+Intercept            1.559078           1.559078            < 1e-12            < 1e-12
+       x1            1.787607           1.787607            < 1e-12            < 1e-12
+       x2           -0.961532          -0.961532            < 1e-12            < 1e-12
+Comment:
+The Normetrics GLS coefficient vector matches the benchmark GLS estimates under the aligned weighting assumptions used in this demonstration.
+Weighted fit and diagnostic comparison
+--------------------------------------
+                Statistic Normetrics  Reference Absolute deviation
+                        N 100.000000 100.000000            < 1e-12
+       Weighted SSE / WSE  97.192732  97.192732            < 1e-12
+                     RMSE   1.266060   1.266060            < 1e-12
+  Max |fitted difference|   0.000000   0.000000            < 1e-12
+Max |residual difference|   0.000000   0.000000            < 1e-12
+Interpretation:
+For this controlled benchmark specification, Normetrics reproduces the benchmark GLS estimates and weighted objective values under the same transformed-system setup.
+Benchmark result: transformed-system and external GLS parity established for this specification.
+----------------------------------------------------------------------------
+SECTION 3. TWO-STAGE LEAST SQUARES (2SLS / IV)
+----------------------------------------------------------------------------
+Model specification
+-------------------
+Estimator:              2SLS / IV
+Dependent variable:     y
+Exogenous regressors:   x1
+Endogenous regressors:  x2
+Excluded instruments:   z
+Intercept:              Included
+Sample size:            1000
+Reference models:       closed-form projection estimator; linearmodels.IV2SLS
+Benchmark objective:    Structural coefficient parity under aligned IV specification
+Benchmark-data note
+-------------------
+This is a controlled benchmark IV specification intended to assess numerical reproduction of standard 2SLS outputs under aligned assumptions rather than substantive inference on a real-world empirical application.
+First-stage and identification note
+-----------------------------------
+The endogenous regressor x2 is instrumented using z, conditional on the included exogenous regressor x1 and the intercept.
+The excluded instrument provides the variation used for structural identification in this benchmark specification.
+Structural coefficient comparison versus IV2SLS
+-----------------------------------------------
+ Variable Normetrics estimate Reference estimate Absolute deviation Relative deviation
+Intercept            0.969843           0.969843            < 1e-12            < 1e-12
+       x1            2.014999           2.014999            < 1e-12            < 1e-12
+       x2           -1.481811          -1.481811            < 1e-12            < 1e-12
+Comment:
+The Normetrics 2SLS structural coefficient vector matches the benchmark IV coefficient vector under the same exogenous, endogenous, and instrument specification.
+Closed-form projection-estimator comparison
+-------------------------------------------
+ Variable Normetrics estimate Reference estimate Absolute deviation Relative deviation
+Intercept            0.969843           0.969843            < 1e-12            < 1e-12
+       x1            2.014999           2.014999            < 1e-12            < 1e-12
+       x2           -1.481811          -1.481811            < 1e-12            < 1e-12
+2SLS fit and parity summary
+---------------------------
+                             Statistic   Normetrics    Reference Absolute deviation
+                                     N 1,000.000000 1,000.000000            < 1e-12
+     Max |fitted difference| vs IV2SLS     0.000000     0.000000            < 1e-12
+Max |fitted difference| vs closed form     0.000000     0.000000            < 1e-12
+                                   SSE   996.219531   996.219531            < 1e-12
+                                  RMSE     0.998108     0.998108            < 1e-12
+Interpretation:
+Under an aligned IV specification, Normetrics reproduces both the closed-form projection estimator and the benchmark IV2SLS implementation within the configured numerical tolerance.
+Benchmark result: structural IV parity established against both closed-form and external IV benchmarks.
+============================================================================
+OVERALL BENCHMARK SUMMARY
+============================================================================
+Estimator family Benchmark status                           Reference basis
+             OLS      Established                           statsmodels.OLS
+             GLS      Established       transformed system; statsmodels.GLS
+       2SLS / IV      Established projection estimator; linearmodels.IV2SLS
+Conclusion:
+Across the benchmarked estimator families presented here, Normetrics reproduces accepted reference outputs under aligned specifications within documented numerical tolerances.
+==================
